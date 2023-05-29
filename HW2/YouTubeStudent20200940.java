@@ -37,18 +37,23 @@ public class YouTubeStudent20200940
 			return 0;
 		}
 	}
+	
 	public static void insertYouTube(PriorityQueue q, String category, double r, int topK)
 	{
+	
 		YouTube top = (YouTube)q.peek();
 		if (q.size() < topK || top.rating < r) {
 			YouTube youtube = new YouTube(category, r);
 			q.add(youtube);
 			if(q.size() > topK) q.remove();
+			
 		}
+		
 	}
 			
 	public static class YouTubeMapper extends Mapper<Object, Text, Text, DoubleWritable>
 	{
+	
 		Text word = new Text();
 		DoubleWritable rating = new DoubleWritable();
 
@@ -103,6 +108,8 @@ public class YouTubeStudent20200940
 			while(queue.size() != 0) {
 				YouTube youtube = (YouTube)queue.remove();
 				context.write(new Text(youtube.category), new DoubleWritable(youtube.rating));
+				
+				
 			}
 		}
 	}
@@ -110,6 +117,7 @@ public class YouTubeStudent20200940
 	public static void main(String[] args) throws Exception 
 	{
 		Configuration conf = new Configuration();
+
 
 		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 		if (otherArgs.length != 3) 
